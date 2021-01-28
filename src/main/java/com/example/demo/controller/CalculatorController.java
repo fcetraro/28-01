@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class CalculatorController {
     @PostMapping("/calculator")
-    public int calculateArea(@RequestBody HouseDTO house){
-        return CalculatorHandler.calculateArea(house);
+    public String calculateArea(@RequestBody HouseDTO house){
+        return CalculatorHandler.calculateArea(house)+"";
     }
 }
