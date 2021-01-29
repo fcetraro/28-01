@@ -92,7 +92,9 @@ class GetDemoApplicationTests {
 				.content(requestJson))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(content().string(containsString("area")));
+				.andExpect(content().string(containsString("area")))
+				.andExpect(content().string(containsString("4")))
+				.andExpect(content().string(containsString("2")));
 	}
 	@Test
 	void shouldGetMeliCongrats() throws Exception {
