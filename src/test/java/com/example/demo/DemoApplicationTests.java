@@ -40,26 +40,59 @@ class GetDemoApplicationTests {
 	}
 	@Test
 	void shouldCalculateArea() throws Exception {
-		String url = "/calculator";
-		HouseDTO anObject = new HouseDTO();
-		anObject.setName("testName");
-		anObject.setAddress("testAddress");
-		RoomDTO aRoom = new RoomDTO();
-		aRoom.setName("testRoomName");
-		aRoom.setWidth(1);
-		aRoom.setLength(2);
-		List<RoomDTO> rooms = new ArrayList<>();
-		rooms.add(aRoom);
-		anObject.setRooms(rooms);
+		String url = "/house/totalArea";
+		HouseDTO anObject = TestUtil.getHouseTest();
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
 		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-		String requestJson=ow.writeValueAsString(anObject);
+		String requestJson = ow.writeValueAsString(anObject);
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
 				.content(requestJson))
 				.andDo(print())
 				.andExpect(status().isOk())
-				.andExpect(content().string(containsString("2")));
+				.andExpect(content().string(containsString("6")));
+	}
+	@Test
+	void shouldCalculateValue() throws Exception {
+		String url = "/house/getValue";
+		HouseDTO anObject = TestUtil.getHouseTest();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(anObject);
+		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
+				.content(requestJson))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().string(containsString("4800")));
+	}
+	@Test
+	void shouldGetBiggestRoom() throws Exception {
+		String url = "/house/biggestRoom";
+		HouseDTO anObject = TestUtil.getHouseTest();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(anObject);
+		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
+				.content(requestJson))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().string(containsString("anotherTestRoomName")));
+	}
+	@Test
+	void shouldGetRooms() throws Exception {
+		String url = "/house/rooms";
+		HouseDTO anObject = TestUtil.getHouseTest();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson = ow.writeValueAsString(anObject);
+		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
+				.content(requestJson))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().string(containsString("area")));
 	}
 	@Test
 	void shouldGetMeliCongrats() throws Exception {
