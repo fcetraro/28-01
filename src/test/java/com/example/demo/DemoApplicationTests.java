@@ -2,6 +2,8 @@ package com.example.demo;
 
 import com.example.demo.model.HouseDTO;
 import com.example.demo.model.RoomDTO;
+import com.example.demo.model.StudentDTO;
+import com.example.demo.model.SubjectDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -55,7 +57,29 @@ class GetDemoApplicationTests {
 		String requestJson=ow.writeValueAsString(anObject);
 		mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
 				.content(requestJson))
+				.andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("2")));
+	}
+	@Test
+	void shouldGetMeliCongrats() throws Exception {
+		String url = "/degree";
+		StudentDTO anObject = new StudentDTO();
+		anObject.setName("testName");
+		SubjectDTO aSubject = new SubjectDTO();
+		aSubject.setName("testSubject");
+		aSubject.setScore(10);
+		List<SubjectDTO> subjects = new ArrayList<>();
+		subjects.add(aSubject);
+		anObject.setSubjects(subjects);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+		ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+		String requestJson=ow.writeValueAsString(anObject);
+		mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON)
+				.content(requestJson))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().string(containsString("MELI")));
 	}
 }
